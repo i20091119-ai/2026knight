@@ -10,7 +10,7 @@
   body {
     font-family: 'Malgun Gothic', Arial, sans-serif;
     margin: 0; overflow: hidden;
-    background: linear-gradient(135deg, #1a2a4a 0%, #24365c 100%);
+    background: #1a2a4a url('assets/bg_pattern.png') center / cover no-repeat fixed;
     color: #fff;
     display: flex; flex-direction: column;
   }
@@ -21,8 +21,10 @@
     justify-content: center; align-items: center; gap: 4vmin;
     text-align: center; padding: 4vmin 2vw;
   }
-  #setupScreen h1 { font-size: 7vmin; margin: 0; text-shadow: 0 4px 12px rgba(0,0,0,.4); }
-  #setupScreen h1 .horse { font-size: 9vmin; }
+  #titleImg {
+    height: 15vmin; max-width: 90vw; object-fit: contain;
+    filter: drop-shadow(0 0 2vmin rgba(255,255,255,.85)) drop-shadow(0 4px 8px rgba(0,0,0,.3));
+  }
   #setupScreen .subtitle { font-size: 3vmin; opacity: .85; margin: 0; line-height: 1.6; }
   #playerButtons { display: flex; gap: 4vw; flex-wrap: wrap; justify-content: center; width: 96vw; }
   .playerBtn {
@@ -33,7 +35,8 @@
     transition: transform .1s, box-shadow .1s;
   }
   .playerBtn:active { transform: translateY(5px); box-shadow: 0 1px 0 rgba(0,0,0,.35); }
-  .playerBtn .icons { font-size: 5.5vmin; letter-spacing: -.5vmin; }
+  .playerBtn .icons { display: flex; justify-content: center; }
+  .playerBtn .icons img { height: 7vmin; margin: 0 -.6vmin; filter: drop-shadow(0 2px 3px rgba(0,0,0,.35)); }
   #rulesBox {
     background: rgba(255,255,255,.1); border-radius: 2vmin; padding: 2.5vmin 3vw;
     font-size: 2.6vmin; line-height: 1.9; text-align: left; width: 92vw; max-width: none;
@@ -70,7 +73,7 @@
   }
   #timer.hurry { color: #ff5252; animation: blink .5s step-start infinite; }
   @keyframes blink { 50% { opacity: .45; } }
-  #topBar .gameTitle { font-size: 3.2vmin; font-weight: bold; opacity: .9; }
+  #topBar .gameTitle img { height: 5vmin; display: block; filter: drop-shadow(0 0 1vmin rgba(255,255,255,.8)); }
   #quitBtn {
     font-family: inherit; font-size: 2.4vmin; padding: 1vmin 2.4vmin; border-radius: 1.5vmin;
     border: none; cursor: pointer; background: rgba(255,255,255,.18); color: #fff;
@@ -99,7 +102,8 @@
     display: flex; align-items: center; gap: 1.5vmin; width: 100%;
     justify-content: center; flex-wrap: wrap;
   }
-  .pname { font-size: 2.8vmin; font-weight: bold; color: var(--pc-light); }
+  .pname { font-size: 2.8vmin; font-weight: bold; color: var(--pc-light); display: flex; align-items: center; gap: .6vmin; }
+  .pname img { height: 3.6vmin; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
   .pscore {
     font-size: 4.2vmin; font-weight: bold; font-variant-numeric: tabular-nums;
     background: rgba(0,0,0,.3); border-radius: 1.2vmin; padding: 0 1.8vmin; min-width: 12vmin;
@@ -109,35 +113,41 @@
   @keyframes bump { 50% { transform: scale(1.25); color: #ffd54f; } }
   .board {
     display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(5, 1fr);
-    gap: .4vmin; background: #222; border: .5vmin solid #111; border-radius: 1vmin;
+    gap: .3vmin; background: rgba(10, 18, 38, .55); border-radius: 1.2vmin; padding: .6vmin;
     touch-action: manipulation;
   }
   .cell {
-    background: #f5f1e8; display: flex; justify-content: center; align-items: center;
-    cursor: pointer; position: relative; font-weight: bold; color: #555;
+    background: url('assets/tile_light.png') center / 100% 100% no-repeat;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; position: relative; font-weight: bold;
     font-size: clamp(10px, 2.6vmin, 26px);
   }
-  .cell.dark { background: #d9d0bd; }
-  .cell.visited { background: var(--pc-visited) !important; color: #fff; }
-  .cell.knight { background: var(--pc) !important; }
-  .cell.knight::after {
-    content: '♞'; position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%,-50%); font-size: clamp(18px, 5vmin, 52px); color: #fff;
-    text-shadow: 0 2px 4px rgba(0,0,0,.4);
+  .cell.dark { background-image: url('assets/tile_dark.png'); }
+  .cell .num { position: relative; z-index: 2; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
+  .cell.visited::before, .cell.knight::before {
+    content: ''; position: absolute; inset: 4%; border-radius: 16%;
+    background: var(--pc); opacity: .5; z-index: 1;
   }
-  .cell.hint::before {
-    content: ''; position: absolute; width: 34%; height: 34%; border-radius: 50%;
-    background: var(--pc); opacity: .45;
+  .cell.knight::after {
+    content: ''; position: absolute; inset: 4%; z-index: 2;
+    background: var(--knight-img) center / contain no-repeat;
+    filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
+  }
+  .cell.hint::after {
+    content: ''; position: absolute; width: 58%; height: 58%; left: 21%; top: 21%;
+    background: var(--hoof-img) center / contain no-repeat; opacity: .75;
   }
   .cell.shake { animation: shake .25s; }
   @keyframes shake { 25% { transform: translateX(-8%); } 75% { transform: translateX(8%); } }
   .pstatus { font-size: 2.2vmin; min-height: 1.4em; text-align: center; opacity: .9; }
 
   .flash {
-    position: absolute; inset: 0; display: flex; justify-content: center; align-items: center;
+    position: absolute; inset: 0; display: flex; flex-direction: column; gap: 1vmin;
+    justify-content: center; align-items: center;
     font-size: 4.5vmin; font-weight: bold; color: #ffd54f; pointer-events: none;
     text-shadow: 0 2px 8px rgba(0,0,0,.7); z-index: 5; opacity: 0;
   }
+  .flash img { width: 38%; max-width: 30vmin; filter: drop-shadow(0 3px 10px rgba(0,0,0,.45)); }
   .flash.show { animation: flashUp 1.1s ease-out; }
   @keyframes flashUp { 0% { opacity: 0; transform: translateY(2vmin); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(-4vmin); } }
   .boardWrap {
@@ -159,7 +169,8 @@
     border-left: 1.4vmin solid var(--pc);
   }
   .rankRow.first { background: rgba(255,213,79,.22); font-size: 4.4vmin; }
-  .rankRow .medal { font-size: 5vmin; width: 7vmin; }
+  .rankRow .medal { font-size: 5vmin; width: 8vmin; text-align: center; }
+  .rankRow .medal img { height: 9vmin; width: 8vmin; object-fit: contain; display: block; margin: 0 auto; }
   .rankRow .rname { flex: 1; text-align: left; color: var(--pc-light); }
   .rankRow .rscore { font-variant-numeric: tabular-nums; }
   #resultBtns { display: flex; gap: 2.5vmin; flex-wrap: wrap; justify-content: center; }
@@ -177,13 +188,13 @@
 
   <!-- 시작 화면 -->
   <div id="setupScreen">
-    <h1><span class="horse">♞</span> 기사의 여행 대결 <span class="horse">♞</span></h1>
+    <img id="titleImg" src="assets/title.png" alt="기사의 여행 대결">
     <p class="subtitle">체스 기사(나이트)를 움직여 최대한 많은 칸을 방문하세요!<br>제한시간 <b style="color:#ffd54f">2분</b> 동안 가장 높은 점수를 얻으면 승리!</p>
     <div id="playerButtons">
-      <button class="playerBtn" style="background:#e53935" data-n="1"><span class="icons">🙂</span>1인 도전</button>
-      <button class="playerBtn" style="background:#1e88e5" data-n="2"><span class="icons">🙂🙂</span>2인 대결</button>
-      <button class="playerBtn" style="background:#43a047" data-n="3"><span class="icons">🙂🙂🙂</span>3인 대결</button>
-      <button class="playerBtn" style="background:#f9a825" data-n="4"><span class="icons">🙂🙂🙂🙂</span>4인 대결</button>
+      <button class="playerBtn" style="background:#e53935" data-n="1"><span class="icons"><img src="assets/knight_red.png" alt=""></span>1인 도전</button>
+      <button class="playerBtn" style="background:#1e88e5" data-n="2"><span class="icons"><img src="assets/knight_red.png" alt=""><img src="assets/knight_blue.png" alt=""></span>2인 대결</button>
+      <button class="playerBtn" style="background:#43a047" data-n="3"><span class="icons"><img src="assets/knight_red.png" alt=""><img src="assets/knight_blue.png" alt=""><img src="assets/knight_green.png" alt=""></span>3인 대결</button>
+      <button class="playerBtn" style="background:#f9a825" data-n="4"><span class="icons"><img src="assets/knight_red.png" alt=""><img src="assets/knight_blue.png" alt=""><img src="assets/knight_green.png" alt=""><img src="assets/knight_yellow.png" alt=""></span>4인 대결</button>
     </div>
     <div id="rulesBox">
       <b>◎ 놀이 방법</b><br>
@@ -207,7 +218,7 @@
       <span id="orgLogoGame"><span class="orgLogoBox">
         <img src="assets/gnmc_logo.png" alt="경남수학문화관" onerror="document.getElementById('orgLogoGame').style.display='none'">
       </span></span>
-      <span class="gameTitle">♞ 기사의 여행 대결</span>
+      <span class="gameTitle"><img src="assets/title.png" alt="기사의 여행 대결"></span>
       <div id="timer">2:00</div>
       <button id="quitBtn">처음으로</button>
     </div>
@@ -236,10 +247,10 @@
   const MOVES = [[1,2],[2,1],[-1,2],[-2,1],[1,-2],[2,-1],[-1,-2],[-2,-1]];
 
   const COLORS = [
-    { name: '빨강', main: '#e53935', light: '#ff8a80', visited: '#ef9a9a' },
-    { name: '파랑', main: '#1e88e5', light: '#82b1ff', visited: '#90caf9' },
-    { name: '초록', main: '#43a047', light: '#b9f6ca', visited: '#a5d6a7' },
-    { name: '노랑', main: '#f9a825', light: '#ffe57f', visited: '#ffcc80' },
+    { name: '빨강', main: '#e53935', light: '#ff8a80', knight: 'assets/knight_red.png', hoof: 'assets/hoof_red.png' },
+    { name: '파랑', main: '#1e88e5', light: '#82b1ff', knight: 'assets/knight_blue.png', hoof: 'assets/hoof_blue.png' },
+    { name: '초록', main: '#43a047', light: '#b9f6ca', knight: 'assets/knight_green.png', hoof: 'assets/hoof_green.png' },
+    { name: '노랑', main: '#f9a825', light: '#ffe57f', knight: 'assets/knight_yellow.png', hoof: 'assets/hoof_yellow.png' },
   ];
 
   const setupScreen = document.getElementById('setupScreen');
@@ -287,13 +298,17 @@
       panel.className = 'panel';
       panel.style.setProperty('--pc', col.main);
       panel.style.setProperty('--pc-light', col.light);
-      panel.style.setProperty('--pc-visited', col.visited);
+      panel.style.setProperty('--knight-img', "url('" + col.knight + "')");
+      panel.style.setProperty('--hoof-img', "url('" + col.hoof + "')");
 
       const head = document.createElement('div');
       head.className = 'panelHead';
       const nameEl = document.createElement('span');
       nameEl.className = 'pname';
-      nameEl.textContent = (n === 1) ? '♞ 나의 도전' : '♞ ' + (i+1) + '번 (' + col.name + ')';
+      const nameIcon = document.createElement('img');
+      nameIcon.src = col.knight;
+      nameEl.appendChild(nameIcon);
+      nameEl.appendChild(document.createTextNode((n === 1) ? ' 나의 도전' : ' ' + (i+1) + '번 (' + col.name + ')'));
       const scoreEl = document.createElement('span');
       scoreEl.className = 'pscore';
       scoreEl.textContent = '0';
@@ -395,14 +410,25 @@
       if(r === p.knightR && c === p.knightC) cell.classList.add('knight');
       else if(p.visited.has(key)){
         cell.classList.add('visited');
-        cell.textContent = p.path.findIndex(q => q[0] === r && q[1] === c) + 1;
+        const num = document.createElement('span');
+        num.className = 'num';
+        num.textContent = p.path.findIndex(q => q[0] === r && q[1] === c) + 1;
+        cell.appendChild(num);
       }
       else if(hints.has(key)) cell.classList.add('hint');
     }
   }
 
-  function flashMsg(p, text){
-    p.flashEl.textContent = text;
+  function flashMsg(p, text, icon){
+    p.flashEl.textContent = '';
+    if(icon){
+      const img = document.createElement('img');
+      img.src = icon;
+      p.flashEl.appendChild(img);
+    }
+    const div = document.createElement('div');
+    div.textContent = text;
+    p.flashEl.appendChild(div);
     p.flashEl.classList.remove('show');
     void p.flashEl.offsetWidth;
     p.flashEl.classList.add('show');
@@ -440,12 +466,12 @@
       p.tours++;
       addScore(p, TOUR_BONUS);
       sndTour();
-      flashMsg(p, '🎉 완주! +' + TOUR_BONUS);
+      flashMsg(p, '완주! +' + TOUR_BONUS, 'assets/icon_tour.png');
       p.statusEl.textContent = '완주 성공! 새 판 준비 중…';
       p.locked = true;
       setTimeout(() => { if(playing) resetBoard(p); }, 1200);
     } else if(legalMoves(p).length === 0){
-      flashMsg(p, '😵 막혔어요!');
+      flashMsg(p, '막혔어요!', 'assets/icon_stuck.png');
       p.statusEl.textContent = '이동 불가! 새 판 준비 중…';
       p.locked = true;
       setTimeout(() => { if(playing) resetBoard(p); }, 1200);
@@ -511,7 +537,7 @@
 
   function showResult(){
     const sorted = players.slice().sort((a, b) => b.score - a.score);
-    const medals = ['🥇', '🥈', '🥉', '4️⃣'];
+    const MEDAL_IMGS = ['assets/medal_gold.png', 'assets/medal_silver.png', 'assets/medal_bronze.png'];
     rankingEl.innerHTML = '';
     sorted.forEach((p, i) => {
       const rank = sorted.findIndex(q => q.score === p.score); // 동점자 같은 순위
@@ -521,8 +547,13 @@
       row.style.setProperty('--pc', col.main);
       row.style.setProperty('--pc-light', col.light);
       const name = (playerCount === 1) ? '나의 기록' : (p.idx + 1) + '번 (' + col.name + ')';
+      const medalHtml = (playerCount === 1)
+        ? '<span class="medal"><img src="' + MEDAL_IMGS[0] + '" alt="기록"></span>'
+        : (rank < 3
+          ? '<span class="medal"><img src="' + MEDAL_IMGS[rank] + '" alt="' + (rank+1) + '등"></span>'
+          : '<span class="medal">' + (rank + 1) + '등</span>');
       row.innerHTML =
-        '<span class="medal">' + (playerCount === 1 ? '⭐' : medals[rank]) + '</span>' +
+        medalHtml +
         '<span class="rname">' + name + '</span>' +
         '<span class="rscore">' + p.score + '점' +
         (p.tours > 0 ? ' · 완주 ' + p.tours + '회' : '') + '</span>';
