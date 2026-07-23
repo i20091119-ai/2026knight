@@ -5,10 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>기사의 여행 대결 (전자칠판용)</title>
 <style>
+  /* 210 썬플라워 웹폰트: 라이선스 보유 시 assets/fonts/ 에 파일을 넣으면 로드됨.
+     파일이 없으면 무시되고, 기기에 설치된 폰트가 있으면 font-family 지정으로 사용됨. */
+  @font-face {
+    font-family: '210 Sunflower Web';
+    src: url('assets/fonts/210sunflower.woff2') format('woff2'),
+         url('assets/fonts/210sunflower.woff') format('woff'),
+         url('assets/fonts/210sunflower.ttf') format('truetype');
+    font-weight: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: '210 Sunflower Web';
+    src: url('assets/fonts/210sunflower-bold.woff2') format('woff2'),
+         url('assets/fonts/210sunflower-bold.woff') format('woff'),
+         url('assets/fonts/210sunflower-bold.ttf') format('truetype');
+    font-weight: bold; font-display: swap;
+  }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
   html, body { height: 100%; }
   body {
-    font-family: 'Malgun Gothic', Arial, sans-serif;
+    font-family: '210 Sunflower Web', '210 썬플라워', '210 Sunflower', '210 썬플라워 R',
+                 '210 SunflowerR', 'Malgun Gothic', Arial, sans-serif;
     margin: 0; overflow: hidden;
     background: #1a2a4a url('assets/bg_pattern.png') center / cover no-repeat fixed;
     color: #fff;
