@@ -180,10 +180,11 @@
     </div>
     <div id="rulesBox">
       <b>◎ 놀이 방법</b><br>
-      ① 기사는 체스의 나이트처럼 <b>ㄱ자(L자)</b>로만 움직일 수 있어요. (초록 점 = 이동 가능한 칸)<br>
+      ① 기사는 체스의 나이트처럼 <b>ㄱ자(L자)</b>로만 움직일 수 있어요. (색 점 = 이동 가능한 칸)<br>
       ② 새로운 칸을 방문하면 <b>+10점</b>, 25칸을 모두 방문(완주)하면 <b>+100점 보너스!</b><br>
       ③ 완주하거나 더 이상 움직일 수 없으면 <b>새로운 판</b>이 자동으로 시작돼요.<br>
-      ④ 2분 동안 자기 보드를 터치하며 동시에 경쟁해요!
+      ④ 힌트 점은 <b>두 판까지만!</b> 세 판째는 10초 뒤에 나오고, 네 판째부터는 힌트 없이 도전해요.<br>
+      ⑤ 2분 동안 자기 보드를 터치하며 동시에 경쟁해요!
     </div>
   </div>
 
@@ -303,6 +304,7 @@
         idx: i, score: 0, tours: 0,
         knightR: 0, knightC: 0, path: [], visited: new Set(),
         cells: [], boardEl, scoreEl, statusEl, flashEl, locked: false,
+        boardNum: 0, hintsOn: true, hintTimer: null,
       };
       for(let r = 0; r < N; r++) for(let c = 0; c < N; c++){
         const cell = document.createElement('div');
@@ -337,6 +339,24 @@
     p.path = [[p.knightR, p.knightC]];
     p.visited = new Set([p.knightR + ',' + p.knightC]);
     p.locked = false;
+    p.boardNum++;
+
+    /* 판 수에 따른 힌트 단계: 1~2판 항상, 3판은 10초 후, 4판부터 없음 */
+    if(p.hintTimer){ clearTimeout(p.hintTimer); p.hintTimer = null; }
+    if(p.boardNum <= 2){
+      p.hintsOn = true;
+    } else if(p.boardNum === 3){
+      p.hintsOn = false;
+      flashMsg(p, '💡 힌트는 10초 뒤에!');
+      p.hintTimer = setTimeout(() => {
+        p.hintsOn = true;
+        if(playing){ renderBoard(p); flashMsg(p, '💡 힌트 등장!'); }
+      }, 10000);
+    } else {
+      p.hintsOn = false;
+      if(p.boardNum === 4) flashMsg(p, '🔥 이제 힌트 없이 도전!');
+    }
+
     renderBoard(p);
     p.statusEl.textContent = '남은 칸: ' + (N * N - 1);
   }
@@ -351,7 +371,9 @@
   }
 
   function renderBoard(p){
-    const hints = new Set(legalMoves(p).map(([r,c]) => r + ',' + c));
+    const hints = p.hintsOn
+      ? new Set(legalMoves(p).map(([r,c]) => r + ',' + c))
+      : new Set();
     for(let r = 0; r < N; r++) for(let c = 0; c < N; c++){
       const cell = p.cells[r * N + c];
       const key = r + ',' + c;
