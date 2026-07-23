@@ -65,14 +65,41 @@
     background: rgba(255,255,255,.1); border-radius: 2vmin; padding: 2.5vmin 3vw;
     font-size: 2.6vmin; line-height: 1.9; text-align: left; width: 92vw; max-width: none;
   }
-  /* 기관 로고: assets/gnmc_logo.png 파일이 있으면 표시됨 */
-  .orgLogoBox {
-    background: #fff; border-radius: 1.5vmin; padding: 1vmin 2vmin;
+  /* 기관 로고: 화면 왼쪽 상단 고정 (assets/gnmc_logo.png 파일이 있으면 표시됨) */
+  #orgLogoFixed {
+    position: fixed; top: 1.5vmin; left: 1.5vmin; z-index: 40;
+    background: #fff; border-radius: 1.5vmin; padding: .9vmin 1.8vmin;
     display: inline-flex; align-items: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,.35);
   }
-  .orgLogoBox img { height: 6vmin; display: block; }
-  #orgLogoGame .orgLogoBox img { height: 4.5vmin; }
+  #orgLogoFixed img { height: 4.6vmin; display: block; }
   #rulesBox b { color: #ffd54f; }
+
+  /* ───────── 힌트 안내(게임 시작 전) ───────── */
+  #briefOverlay {
+    position: fixed; inset: 0; z-index: 55; display: none;
+    justify-content: center; align-items: center;
+    background: rgba(10,18,38,.88); padding: 4vmin;
+  }
+  #briefBox {
+    background: #24365c; border: .6vmin solid #ffd54f; border-radius: 3vmin;
+    padding: 4vmin 5vmin; max-width: 120vmin; width: 100%;
+    display: flex; flex-direction: column; gap: 2.5vmin; align-items: center;
+  }
+  #briefBox h2 { font-size: 4.5vmin; margin: 0; color: #ffd54f; }
+  .briefRow {
+    display: flex; align-items: center; gap: 2.5vmin; width: 100%;
+    background: rgba(255,255,255,.08); border-radius: 2vmin; padding: 1.6vmin 2.5vmin;
+    font-size: 2.9vmin; line-height: 1.5;
+  }
+  .briefRow img { height: 7vmin; flex-shrink: 0; }
+  .briefRow .stage {
+    flex-shrink: 0; background: #ffd54f; color: #223; font-weight: bold;
+    border-radius: 1.2vmin; padding: .6vmin 1.6vmin; font-size: 2.7vmin;
+  }
+  .briefRow b { color: #ffd54f; }
+  #briefBtns { display: flex; gap: 2.5vmin; margin-top: 1vmin; }
+  #briefStart { font-size: 4vmin; padding: 2vmin 8vmin; }
 
   /* ───────── 카운트다운 ───────── */
   #countdownOverlay {
@@ -210,6 +237,11 @@
 </head>
 <body>
 
+  <!-- 기관 로고 (왼쪽 상단 고정) -->
+  <div id="orgLogoFixed">
+    <img src="assets/gnmc_logo.png" alt="경남수학문화관" onerror="document.getElementById('orgLogoFixed').style.display='none'">
+  </div>
+
   <!-- 시작 화면 -->
   <div id="setupScreen">
     <img id="titleImg" src="assets/title.png" alt="기사의 여행 대결">
@@ -222,14 +254,38 @@
     </div>
     <div id="rulesBox">
       <b>◎ 놀이 방법</b><br>
-      ① 기사는 체스의 나이트처럼 <b>ㄱ자(L자)</b>로만 움직일 수 있어요. (색 점 = 이동 가능한 칸)<br>
+      ① 기사는 체스의 나이트처럼 <b>ㄱ자(L자)</b>로만 움직일 수 있어요. (말발굽 = 이동 가능한 칸)<br>
       ② 새로운 칸을 방문하면 <b>+10점</b>, 25칸을 모두 방문(완주)하면 <b>+100점 보너스!</b><br>
       ③ 완주하거나 더 이상 움직일 수 없으면 <b>새로운 판</b>이 자동으로 시작돼요.<br>
       ④ 힌트 점은 <b>두 판까지만!</b> 세 판째는 10초 뒤에 나오고, 네 판째부터는 힌트 없이 도전해요.<br>
       ⑤ 2분 동안 자기 보드를 터치하며 동시에 경쟁해요!
     </div>
-    <div class="orgLogoBox" id="orgLogoSetup">
-      <img src="assets/gnmc_logo.png" alt="경남수학문화관" onerror="document.getElementById('orgLogoSetup').style.display='none'">
+  </div>
+
+  <!-- 힌트 안내 (시작 전) -->
+  <div id="briefOverlay">
+    <div id="briefBox">
+      <h2>💡 힌트는 이렇게 주어져요!</h2>
+      <div class="briefRow">
+        <img src="assets/hoof_red.png" alt="말발굽">
+        <span><b>말발굽이 찍힌 칸</b>이 지금 이동할 수 있는 칸이에요. 자기 색깔 발굽을 따라 움직이세요!</span>
+      </div>
+      <div class="briefRow">
+        <span class="stage">1~2판</span>
+        <span>힌트가 <b>계속</b> 표시돼요. 발굽을 보며 나이트의 ㄱ자(L자) 움직임에 익숙해지세요.</span>
+      </div>
+      <div class="briefRow">
+        <span class="stage">3판째</span>
+        <span>처음엔 힌트가 없어요! 스스로 찾다가 <b>10초가 지나면</b> 힌트가 나타나요.</span>
+      </div>
+      <div class="briefRow">
+        <span class="stage">4판째~</span>
+        <span>이제 <b>힌트 없이</b> 도전! 머릿속으로 ㄱ자를 그리며 움직여 보세요.</span>
+      </div>
+      <div id="briefBtns">
+        <button class="bigBtn green" id="briefStart">🚀 시작하기!</button>
+        <button class="bigBtn blue" id="briefBack">← 다시 선택</button>
+      </div>
     </div>
   </div>
 
@@ -239,9 +295,6 @@
   <!-- 게임 화면 -->
   <div id="gameScreen">
     <div id="topBar">
-      <span id="orgLogoGame"><span class="orgLogoBox">
-        <img src="assets/gnmc_logo.png" alt="경남수학문화관" onerror="document.getElementById('orgLogoGame').style.display='none'">
-      </span></span>
       <span class="gameTitle"><img src="assets/title.png" alt="기사의 여행 대결"></span>
       <div id="timer">2:00</div>
       <button id="quitBtn">처음으로</button>
@@ -592,12 +645,25 @@
     resultOverlay.style.display = 'none';
     gameScreen.style.display = 'none';
     countdownOverlay.style.display = 'none';
+    document.getElementById('briefOverlay').style.display = 'none';
     setupScreen.style.display = 'flex';
   }
 
   /* ── 버튼 연결 ── */
+  const briefOverlay = document.getElementById('briefOverlay');
+  let pendingCount = 0;
   document.querySelectorAll('.playerBtn').forEach(btn =>
-    btn.addEventListener('click', () => startGame(+btn.dataset.n)));
+    btn.addEventListener('click', () => {
+      pendingCount = +btn.dataset.n;
+      briefOverlay.style.display = 'flex';
+    }));
+  document.getElementById('briefStart').addEventListener('click', () => {
+    briefOverlay.style.display = 'none';
+    startGame(pendingCount);
+  });
+  document.getElementById('briefBack').addEventListener('click', () => {
+    briefOverlay.style.display = 'none';
+  });
   document.getElementById('rematchBtn').addEventListener('click', () => startGame(playerCount));
   document.getElementById('homeBtn').addEventListener('click', goHome);
   document.getElementById('quitBtn').addEventListener('click', goHome);
