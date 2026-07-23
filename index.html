@@ -21,11 +21,18 @@
          url('assets/fonts/210sunflower-bold.ttf') format('truetype');
     font-weight: bold; font-display: swap;
   }
+  /* 주아체(SIL OFL): 210 썬플라워가 없을 때 사용하는 유사 무료 폰트.
+     게임에 쓰이는 글자만 담은 경량 서브셋(assets/fonts/jua.woff2). */
+  @font-face {
+    font-family: 'Jua Web';
+    src: url('assets/fonts/jua.woff2') format('woff2');
+    font-display: swap;
+  }
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
   html, body { height: 100%; }
   body {
     font-family: '210 Sunflower Web', '210 썬플라워', '210 Sunflower', '210 썬플라워 R',
-                 '210 SunflowerR', 'Malgun Gothic', Arial, sans-serif;
+                 '210 SunflowerR', 'Jua Web', 'Malgun Gothic', Arial, sans-serif;
     margin: 0; overflow: hidden;
     background: #1a2a4a url('assets/bg_pattern.png') center / cover no-repeat fixed;
     color: #fff;
