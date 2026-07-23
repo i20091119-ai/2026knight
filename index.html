@@ -38,6 +38,13 @@
     background: rgba(255,255,255,.1); border-radius: 2vmin; padding: 2.5vmin 3vw;
     font-size: 2.6vmin; line-height: 1.9; text-align: left; width: 92vw; max-width: none;
   }
+  /* 기관 로고: assets/gnmc_logo.png 파일이 있으면 표시됨 */
+  .orgLogoBox {
+    background: #fff; border-radius: 1.5vmin; padding: 1vmin 2vmin;
+    display: inline-flex; align-items: center;
+  }
+  .orgLogoBox img { height: 6vmin; display: block; }
+  #orgLogoGame .orgLogoBox img { height: 4.5vmin; }
   #rulesBox b { color: #ffd54f; }
 
   /* ───────── 카운트다운 ───────── */
@@ -186,6 +193,9 @@
       ④ 힌트 점은 <b>두 판까지만!</b> 세 판째는 10초 뒤에 나오고, 네 판째부터는 힌트 없이 도전해요.<br>
       ⑤ 2분 동안 자기 보드를 터치하며 동시에 경쟁해요!
     </div>
+    <div class="orgLogoBox" id="orgLogoSetup">
+      <img src="assets/gnmc_logo.png" alt="경남수학문화관" onerror="document.getElementById('orgLogoSetup').style.display='none'">
+    </div>
   </div>
 
   <!-- 카운트다운 -->
@@ -194,6 +204,9 @@
   <!-- 게임 화면 -->
   <div id="gameScreen">
     <div id="topBar">
+      <span id="orgLogoGame"><span class="orgLogoBox">
+        <img src="assets/gnmc_logo.png" alt="경남수학문화관" onerror="document.getElementById('orgLogoGame').style.display='none'">
+      </span></span>
       <span class="gameTitle">♞ 기사의 여행 대결</span>
       <div id="timer">2:00</div>
       <button id="quitBtn">처음으로</button>
