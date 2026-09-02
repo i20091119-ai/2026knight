@@ -1,0 +1,58 @@
+name: Build Android APK
+
+on:
+  push:
+    branches:
+      - claude/knights-tour-multiplayer-egzz4x
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: 게임 파일을 APK 에셋으로 복사
+        run: |
+          mkdir -p android/app/src/main/assets/www
+          cp index.html android/app/src/main/assets/www/
+          cp -r assets android/app/src/main/assets/www/assets
+
+      - name: APK 빌드
+        env:
+          APK_VERSION_CODE: ${{ github.run_number }}
+          APK_VERSION_NAME: 1.${{ github.run_number }}
+        run: gradle -p android assembleDebug
+
+      - name: APK 이름 정리
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk 기사의여행대결.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: knight-tour-apk
+          path: 기사의여행대결.apk
+
+      - name: 릴리스에 APK 게시
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: apk-latest
+          name: 전자칠판용 APK (최신)
+          body: |
+            전자칠판(안드로이드)용 설치 파일입니다.
+            1. 아래 `기사의여행대결.apk`를 내려받아 USB 메모리에 복사
+            2. 전자칠판 파일 매니저에서 USB의 apk 파일을 눌러 설치
+            3. 설치 후 앱 목록에서 "기사의 여행 대결" 실행 (인터넷 불필요)
+          files: 기사의여행대결.apk
