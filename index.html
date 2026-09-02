@@ -77,7 +77,7 @@
 
   /* ───────── 힌트 안내(게임 시작 전) ───────── */
   #briefOverlay {
-    position: fixed; inset: 0; z-index: 55; display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 55; display: none;
     justify-content: center; align-items: center;
     background: rgba(10,18,38,.88); padding: 4vmin;
   }
@@ -103,7 +103,7 @@
 
   /* ───────── 카운트다운 ───────── */
   #countdownOverlay {
-    position: fixed; inset: 0; z-index: 60; display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 60; display: none;
     justify-content: center; align-items: center;
     background: rgba(10,18,38,.85);
   }
@@ -176,11 +176,11 @@
   .cell.dark { background-image: url('assets/tile_dark.png'); }
   .cell .num { position: relative; z-index: 2; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
   .cell.visited::before, .cell.knight::before {
-    content: ''; position: absolute; inset: 4%; border-radius: 16%;
+    content: ''; position: absolute; top: 4%; left: 4%; right: 4%; bottom: 4%; border-radius: 16%;
     background: var(--pc); opacity: .5; z-index: 1;
   }
   .cell.knight::after {
-    content: ''; position: absolute; inset: 4%; z-index: 2;
+    content: ''; position: absolute; top: 4%; left: 4%; right: 4%; bottom: 4%; z-index: 2;
     background: var(--knight-img) center / contain no-repeat;
     filter: drop-shadow(0 2px 3px rgba(0,0,0,.35));
   }
@@ -193,7 +193,7 @@
   .pstatus { font-size: 2.2vmin; min-height: 1.4em; text-align: center; opacity: .9; }
 
   .flash {
-    position: absolute; inset: 0; display: flex; flex-direction: column; gap: 1vmin;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 1vmin;
     justify-content: center; align-items: center;
     font-size: 4.5vmin; font-weight: bold; color: #ffd54f; pointer-events: none;
     text-shadow: 0 2px 8px rgba(0,0,0,.7); z-index: 5; opacity: 0;
@@ -208,7 +208,7 @@
 
   /* ───────── 결과 화면 ───────── */
   #resultOverlay {
-    position: fixed; inset: 0; z-index: 70; display: none;
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 70; display: none;
     justify-content: center; align-items: center; background: rgba(10,18,38,.92);
   }
   #resultBox { text-align: center; display: flex; flex-direction: column; gap: 3vmin; align-items: center; padding: 4vmin; }
