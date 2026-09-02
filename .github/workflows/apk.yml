@@ -38,12 +38,12 @@ jobs:
         run: gradle -p android assembleDebug
 
       - name: APK 이름 정리
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk 기사의여행대결.apk
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk knight-tour.apk
 
       - uses: actions/upload-artifact@v4
         with:
           name: knight-tour-apk
-          path: 기사의여행대결.apk
+          path: knight-tour.apk
 
       - name: 릴리스에 APK 게시
         uses: softprops/action-gh-release@v2
@@ -51,8 +51,8 @@ jobs:
           tag_name: apk-latest
           name: 전자칠판용 APK (최신)
           body: |
-            전자칠판(안드로이드)용 설치 파일입니다.
-            1. 아래 `기사의여행대결.apk`를 내려받아 USB 메모리에 복사
+            전자칠판(안드로이드)용 '기사의 여행 대결' 설치 파일입니다.
+            1. 아래 `knight-tour.apk`를 내려받아 USB 메모리에 복사
             2. 전자칠판 파일 매니저에서 USB의 apk 파일을 눌러 설치
             3. 설치 후 앱 목록에서 "기사의 여행 대결" 실행 (인터넷 불필요)
-          files: 기사의여행대결.apk
+          files: knight-tour.apk
