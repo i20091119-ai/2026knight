@@ -39,10 +39,22 @@
     display: flex; flex-direction: column;
   }
 
+  /* 구형 WebView 호환: flex gap 대신 margin으로 간격 부여 */
+  #setupScreen > * + * { margin-top: 4vmin; }
+  .playerBtn .icons { margin-bottom: 1vmin; }
+  #briefBox > * + * { margin-top: 2.5vmin; }
+  .briefRow > * + * { margin-left: 2.5vmin; }
+  #topBar > * + * { margin-left: 4vmin; }
+  .panel > * + * { margin-top: .8vmin; }
+  .panelHead > * + * { margin-left: 1.5vmin; }
+  .pname img { margin-right: .6vmin; }
+  .flash img { margin-bottom: 1vmin; }
+  .rankRow > * + * { margin-left: 2.5vmin; }
+
   /* ───────── 시작 화면 ───────── */
   #setupScreen {
     flex: 1; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; gap: 4vmin;
+    justify-content: center; align-items: center;
     text-align: center; padding: 4vmin 2vw;
   }
   #titleImg {
@@ -50,11 +62,12 @@
     filter: drop-shadow(0 0 2vmin rgba(255,255,255,.85)) drop-shadow(0 4px 8px rgba(0,0,0,.3));
   }
   #setupScreen .subtitle { font-size: 3vmin; opacity: .85; margin: 0; line-height: 1.6; }
-  #playerButtons { display: flex; gap: 4vw; flex-wrap: wrap; justify-content: center; width: 96vw; }
+  #playerButtons { display: flex; flex-wrap: wrap; justify-content: center; width: 96vw; }
+  .playerBtn { margin: 1vmin 2vw; }
   .playerBtn {
     width: 22vmin; height: 22vmin; border-radius: 3vmin; border: none; cursor: pointer;
     font-family: inherit; font-size: 4.2vmin; font-weight: bold; color: #fff;
-    display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1vmin;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
     box-shadow: 0 6px 0 rgba(0,0,0,.35), 0 10px 24px rgba(0,0,0,.3);
     transition: transform .1s, box-shadow .1s;
   }
@@ -84,11 +97,11 @@
   #briefBox {
     background: #24365c; border: .6vmin solid #ffd54f; border-radius: 3vmin;
     padding: 4vmin 5vmin; max-width: 120vmin; width: 100%;
-    display: flex; flex-direction: column; gap: 2.5vmin; align-items: center;
+    display: flex; flex-direction: column; align-items: center;
   }
   #briefBox h2 { font-size: 4.5vmin; margin: 0; color: #ffd54f; }
   .briefRow {
-    display: flex; align-items: center; gap: 2.5vmin; width: 100%;
+    display: flex; align-items: center; width: 100%;
     background: rgba(255,255,255,.08); border-radius: 2vmin; padding: 1.6vmin 2.5vmin;
     font-size: 2.9vmin; line-height: 1.5;
   }
@@ -98,7 +111,8 @@
     border-radius: 1.2vmin; padding: .6vmin 1.6vmin; font-size: 2.7vmin;
   }
   .briefRow b { color: #ffd54f; }
-  #briefBtns { display: flex; gap: 2.5vmin; margin-top: 1vmin; }
+  #briefBtns { display: flex; margin-top: 1vmin; }
+  #briefBtns .bigBtn { margin: 1.5vmin 1.2vmin 0; }
   #briefStart { font-size: 4vmin; padding: 2vmin 8vmin; }
 
   /* ───────── 카운트다운 ───────── */
@@ -114,7 +128,7 @@
   /* ───────── 게임 화면 ───────── */
   #gameScreen { flex: 1; display: none; flex-direction: column; min-height: 0; }
   #topBar {
-    display: flex; justify-content: center; align-items: center; gap: 4vmin;
+    display: flex; justify-content: center; align-items: center;
     padding: 1vmin 2vmin;
   }
   #timer {
@@ -145,15 +159,15 @@
   }
 
   .panel {
-    display: flex; flex-direction: column; align-items: center; gap: .8vmin;
+    display: flex; flex-direction: column; align-items: center;
     background: rgba(255,255,255,.07); border-radius: 2vmin; padding: 1.2vmin;
     border-top: 1vmin solid var(--pc); min-height: 0; width: 100%;
   }
   .panelHead {
-    display: flex; align-items: center; gap: 1.5vmin; width: 100%;
+    display: flex; align-items: center; width: 100%;
     justify-content: center; flex-wrap: wrap;
   }
-  .pname { font-size: 2.8vmin; font-weight: bold; color: var(--pc-light); display: flex; align-items: center; gap: .6vmin; }
+  .pname { font-size: 2.8vmin; font-weight: bold; color: var(--pc-light); display: flex; align-items: center; }
   .pname img { height: 3.6vmin; filter: drop-shadow(0 1px 2px rgba(0,0,0,.4)); }
   .pscore {
     font-size: 4.2vmin; font-weight: bold; font-variant-numeric: tabular-nums;
@@ -171,7 +185,7 @@
     background: url('assets/tile_light.png') center / 100% 100% no-repeat;
     display: flex; justify-content: center; align-items: center;
     cursor: pointer; position: relative; font-weight: bold;
-    font-size: clamp(10px, 2.6vmin, 26px);
+    font-size: 2.6vmin;
   }
   .cell.dark { background-image: url('assets/tile_dark.png'); }
   .cell .num { position: relative; z-index: 2; color: #fff; text-shadow: 0 1px 3px rgba(0,0,0,.55); }
@@ -193,7 +207,7 @@
   .pstatus { font-size: 2.2vmin; min-height: 1.4em; text-align: center; opacity: .9; }
 
   .flash {
-    position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column; gap: 1vmin;
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; flex-direction: column;
     justify-content: center; align-items: center;
     font-size: 4.5vmin; font-weight: bold; color: #ffd54f; pointer-events: none;
     text-shadow: 0 2px 8px rgba(0,0,0,.7); z-index: 5; opacity: 0;
@@ -211,11 +225,13 @@
     position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 70; display: none;
     justify-content: center; align-items: center; background: rgba(10,18,38,.92);
   }
-  #resultBox { text-align: center; display: flex; flex-direction: column; gap: 3vmin; align-items: center; padding: 4vmin; }
+  #resultBox { text-align: center; display: flex; flex-direction: column; align-items: center; padding: 4vmin; }
+  #resultBox > * + * { margin-top: 3vmin; }
   #resultBox h2 { font-size: 6.5vmin; margin: 0; color: #ffd54f; text-shadow: 0 4px 12px rgba(0,0,0,.5); }
-  #ranking { display: flex; flex-direction: column; gap: 1.6vmin; min-width: 60vmin; }
+  #ranking { display: flex; flex-direction: column; min-width: 60vmin; }
+  .rankRow + .rankRow { margin-top: 1.6vmin; }
   .rankRow {
-    display: flex; align-items: center; gap: 2.5vmin; font-size: 3.6vmin; font-weight: bold;
+    display: flex; align-items: center; font-size: 3.6vmin; font-weight: bold;
     background: rgba(255,255,255,.1); border-radius: 2vmin; padding: 1.6vmin 3vmin;
     border-left: 1.4vmin solid var(--pc);
   }
@@ -224,7 +240,8 @@
   .rankRow .medal img { height: 9vmin; width: 8vmin; object-fit: contain; display: block; margin: 0 auto; }
   .rankRow .rname { flex: 1; text-align: left; color: var(--pc-light); }
   .rankRow .rscore { font-variant-numeric: tabular-nums; }
-  #resultBtns { display: flex; gap: 2.5vmin; flex-wrap: wrap; justify-content: center; }
+  #resultBtns { display: flex; flex-wrap: wrap; justify-content: center; }
+  #resultBtns .bigBtn { margin: 0 1.2vmin; }
   .bigBtn {
     font-family: inherit; font-size: 3.2vmin; font-weight: bold; padding: 2vmin 5vmin;
     border-radius: 2vmin; border: none; cursor: pointer; color: #fff;
